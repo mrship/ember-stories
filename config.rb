@@ -1,3 +1,5 @@
+Dotenv.load
+
 set :css_dir, 'stylesheets'
 set :js_dir, 'javascripts'
 set :images_dir, 'images'
@@ -8,7 +10,7 @@ activate :livereload
 set :layout, nil
 
 activate :s3_sync do |s3_sync|
-  s3_sync.bucket                = 'stories.cllearview.com'
+  s3_sync.bucket                = ENV['S3_BUCKET']
   s3_sync.region                = 'eu-west-1'
   s3_sync.aws_access_key_id     = ENV['ACCESS_KEY']
   s3_sync.aws_secret_access_key = ENV['SECRET_KEY']
