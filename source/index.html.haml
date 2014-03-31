@@ -1,0 +1,86 @@
+!!!
+%html
+  %head
+    %title EmberJS for Ruby Developers...
+    = stylesheet_link_tag "application.css"
+  %body
+    %script(type="text/x-handlebars" data-template-name="application")
+      %nav.navbar.navbar-default.navbar-fixed-top.navbar-inverse(role="navigation")
+        .container
+          .navbar-header
+            {{#link-to 'stories.index' class='navbar-brand'}}Story time...{{/link-to}}
+          %ul.nav.navbar-nav.pull-right
+            %li
+              {{#link-to 'stories.new'}}
+              %span.glyphicon.glyphicon-plus
+              Add your story...
+              {{/link-to}}
+      #main.container
+        {{outlet}}
+
+    %script(type="text/x-handlebars" data-template-name="stories/index")
+      {{story-list list=content}}
+      {{outlet}}
+
+    %script(type="text/x-handlebars" data-template-name="stories/new")
+      {{story-list list=allStories}}
+      %form.form-horizontal(role="form" onSubmit="return false;")
+        .form-group
+          .col-sm-10
+            {{input class="form-control" name="title" placeholder="What's the story?" required="true" valueBinding="title"}}
+        .form-group
+          .col-sm-10
+            {{textarea id="text" class="form-control" name="text" placeholder="Tell us all about it..." required="true" rows="5" valueBinding="text"}}
+        .form-group
+          .col-sm-2
+            :plain
+              <button class="btn btn-success" type="submit" {{action 'save'}}</button> Write it in the book...
+          .col-sm-1
+            :plain
+              <button class="btn btn-default" type="submit" {{action 'cancel'}}</button> Cancel
+      {{outlet}}
+
+    %script(type="text/x-handlebars" data-template-name="story/edit")
+      {{story-list list=allStories}}
+      %form.form-horizontal(role="form" onSubmit="return false;")
+        .form-group
+          .col-sm-10
+            {{input class="form-control" name="title" required="true" valueBinding="title"}}
+        .form-group
+          .col-sm-10
+            {{textarea id="text" class="form-control" name="text" rows="5" valueBinding="text"}}
+        .form-group
+          .col-sm-2
+            :plain
+              <button class="btn btn-success" type="submit" {{action 'update'}}</button> Re-write history...
+          .col-sm-1
+            :plain
+              <button class="btn btn-default" type="submit" {{action 'cancel'}}</button> Cancel
+      {{outlet}}
+
+    %script(type="text/x-handlebars" data-template-name="components/story-list")
+      {{#unless empty}}
+      .row
+        .col-md-4
+          %table.table
+            %thead
+              %tr
+                %th 
+                  Recent tales...
+            {{#each story in list}}
+            {{#unless story.isNew}}
+            %tr
+              %td
+                :plain
+                  <a href="#" {{action 'show' story}}> {{story.title}}
+                  <a href="#" {{action 'delete' story}}><span class="glyphicon glyphicon-remove pull-right"></span>
+                {{#link-to 'story.edit' story}}
+                %span.glyphicon.glyphicon-pencil.pull-right &nbsp;
+                {{/link-to}}
+            {{/unless}}
+            {{/each}}
+        #story-text.col-md-8
+          {{text}}
+      %hr
+      {{/unless}}
+  = javascript_include_tag "application.js"

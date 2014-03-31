@@ -1,0 +1,16 @@
+@import 'bootstrap';
+
+body {
+  padding-top: 40px;
+}
+
+#main {
+  margin-top: 25px;
+}
+
+#story-text {
+  border-left:2px solid;
+  border-color: $gray-lighter;
+  height: 200px;
+  margin-top: 45px;
+}
